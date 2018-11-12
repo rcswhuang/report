@@ -16,7 +16,6 @@
         <file>icon/Paste.png</file>
         <file>icon/Bold.png</file>
         <file>icon/fontcolor.png</file>
-        <file>icon/FontSizeDecreaseWord.png</file>
         <file>icon/FontSizeIncrease.png</file>
         <file>icon/Italic.png</file>
         <file>icon/Underline.png</file>
@@ -53,5 +52,14 @@
         <file>icon/sCellsInsertDialog.png</file>
         <file>icon/ColumnWidth.png</file>
         <file>icon/RowHeight.png</file>
+        <file>icon/CellsFormat.png</file>
+        <file>icon/PrintDialogAccess.png</file>
+        <file>icon/PrintOptionsMenuWord.png</file>
+        <file>icon/PrintPreviewZoomMenu.png</file>
+        <file>icon/fontclear.png</file>
+        <file>icon/Clear.png</file>
+        <file>icon/ClearFormats.png</file>
+        <file>icon/ClearFormatting.png</file>
+        <file>icon/FontSizeDecrease.png</file>
     </qresource>
 </RCC>

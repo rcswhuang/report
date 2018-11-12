@@ -25,6 +25,7 @@ private slots:
     void onWpsStyle(bool on);
 private:
     void createCategoryMain(SARibbonCategory* page);
+    void createCategoryPrint(SARibbonCategory* page);
     void createCategoryOther(SARibbonCategory* page);
 private slots:
     void onMenuButtonPopupCheckableTest(bool b);
