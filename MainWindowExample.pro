@@ -10,12 +10,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = SARibbonMainWindowExample
 TEMPLATE = app
-DESTDIR = D:\qt-test\SARibbon-master\bin
+DESTDIR = ..\..\bin
 INCLUDEPATH += \
               ..\SARibbonBar
 
 SOURCES += main.cpp\
-    mainwindow.cpp 
+    mainwindow.cpp \ 
+    hreportwindowact.cpp
 
 HEADERS  += \
     mainwindow.h 

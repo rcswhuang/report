@@ -6,6 +6,8 @@
 #include <QPushButton>
 #include "SARibbonPannel.h"
 #include "SARibbonToolButton.h"
+#include "SARibbonApplicationButton.h"
+#include "SARibboniconstyle.h"
 #include <QAction>
 #include <QMenu>
 #include <QDebug>
@@ -57,13 +59,26 @@ void HReportMainWindow::initSARibbonBar()
     QFont f = m_ribbonMenuBar->font();
     f.setFamily("微软雅黑");
     m_ribbonMenuBar->setFont(f);
-    m_ribbonMenuBar->applitionButton()->setText(QStringLiteral("文件"));//menu
+
     SARibbonCategory* categoryMain = m_ribbonMenuBar->addCategoryPage(QStringLiteral("开始"));
     createCategoryMain(categoryMain);
     SARibbonCategory* categoryPrint = m_ribbonMenuBar->addCategoryPage(QStringLiteral("打印"));
     createCategoryPrint(categoryPrint);
     SARibbonCategory* categoryOther = m_ribbonMenuBar->addCategoryPage(QStringLiteral("测试"));
     createCategoryOther(categoryOther);
+
+    //m_ribbonMenuBar->applitionButton()->setText(QStringLiteral("文件"));//menu
+    SARibbonApplicationButton *btn = new SARibbonApplicationButton(this);
+    btn->setText(QStringLiteral("文件"));
+    btn->resize(56,30);
+    SARibbonMenu* fileMenu = new SARibbonMenu(this);
+    fileMenu->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    SARibbonIconStyle * iconSytle = new SARibbonIconStyle();
+    iconSytle->setIconSize(QSize(32,32));
+    fileMenu->setStyle(iconSytle);
+    fileMenu->addAction(newAct);
+    btn->setMenu(fileMenu);
+    m_ribbonMenuBar->setApplitionButton(btn);
     //m_contextCategory = m_ribbonMenuBar->addContextCategory(QStringLiteral("context"),Qt::red,1);
     //SARibbonCategory* contextCategoryPage1 = m_contextCategory->addCategoryPage(QStringLiteral("Page1"));
     //SARibbonCategory* contextCategoryPage2 = m_contextCategory->addCategoryPage(QStringLiteral("Page1"));
@@ -86,7 +101,11 @@ void HReportMainWindow::onWpsStyle(bool on)
 
 void HReportMainWindow::createCategoryMain(SARibbonCategory *page)
 {
-    SARibbonToolButton * btn = NULL;
+    newAct = new QAction(QIcon(":/icon/icon/FileNew.png"),QStringLiteral("新建"),this);
+    openAct = new QAction(QIcon(":/icon/icon/Paste.png"),QStringLiteral("打开"),this);
+    saveAct = new QAction(QIcon(":/icon/icon/Paste.png"),QStringLiteral("保存"),this);
+    saveAsAct = new QAction(QIcon(":/icon/icon/Paste.png"),QStringLiteral("另存为"),this);
+    closeAct = new QAction(QIcon(":/icon/icon/Paste.png"),QStringLiteral("关闭"),this);
     /*
     SARibbonMenu* menu = new SARibbonMenu(this);
     menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("1111111"));
@@ -101,81 +120,9 @@ void HReportMainWindow::createCategoryMain(SARibbonCategory *page)
     menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("1111111111111111111111111111"));*/
 
     ///////////////////////////////////////////剪贴板//////////////////////////////////////////
+
+    SARibbonToolButton * btn = NULL;
     SARibbonPannel* pannel = page->addPannel(QStringLiteral("剪贴板"));
-
-    //剪切板
-    QAction* pasteAct;
-    QAction* cutAct;
-    QAction* copyAct;
-    QAction* formatPainterAct;
-
-    //字体设置
-    QAction* boldAct;
-    QAction* italicAct;
-    QAction* underlineAct;
-
-    //字体颜色
-    QAction* fontColorAct;
-    QAction* fontBkColorAct;
-
-    //边框设置
-    QAction* borderBottomAct;
-    QAction* borderTopAct;
-    QAction* borderLeftAct;
-    QAction* borderRightAct;
-    QAction* borderNoneAct;
-    QAction* borderAllAct;
-    QAction* borderOutSideAct;
-    QAction* borderInsideAct;
-    QAction* borderInsideHorAct;
-    QAction* borderInsideVerAct;
-
-    //字体大小设置
-    QAction* fontSizeIncreaseAct;
-    QAction* fontSizeDecreaseAct;
-
-    //字体格式
-    QAction* clearAllFormatsAct;//清除所有
-    QAction* clearFormatsAct; //清楚格式
-    QAction* clearFormatingAct;//清除内容
-
-    //字体对齐
-    QAction* alignTopAct;
-    QAction* alignMiddleAct;
-    QAction* alignBottomAct;
-    QAction* alignLeftAct;
-    QAction* alignCenterAct;
-    QAction* alignRightAct;
-
-    //自动换行
-    QAction* autoWrapTextAct;//自动换行
-
-    //合并单元格
-    QAction* mergeCenterAct;
-    QAction* mergeCellsAct;
-    QAction* mergeSplitAct;
-
-    //单元格插入
-    QAction* cellInsertAct;
-    QAction* cellInsertRowAct;
-    QAction* cellRemoveRowAct;
-
-    //单元格删除
-    QAction* cellDeleteAct;
-    QAction* cellInsertColAct;
-    QAction* cellRomoveColAct;
-
-    //单元格格式
-    QAction* cellRowHeightAct;
-    QAction* cellAutoRowHeightAct;
-    QAction* cellColWidthAct;
-    QAction* cellAutoColWidthAct;
-    QAction* cellDefaultColWidthAct;
-    QAction* cellSetFormatAct;
-
-    //格式
-    QAction* optAct;
-
     pasteAct = new QAction(this);
     pasteAct->setIcon(QIcon(":/icon/icon/Paste.png"));
     pasteAct->setText(QStringLiteral("粘贴"));
@@ -398,7 +345,7 @@ void HReportMainWindow::createCategoryMain(SARibbonCategory *page)
     cellDeleteAct = cellmenu->addAction(QIcon(":/icon/icon/sCellsDelete.png"),QStringLiteral("删除单元格"));
     cellmenu->addSeparator();
     cellRemoveRowAct = cellmenu->addAction(QIcon(":/icon/icon/InsertColumn.png"),QStringLiteral("删除工作表行"));
-    cellRomoveColAct = cellmenu->addAction(QIcon(":/icon/icon/RemoveColumn.png"),QStringLiteral("删除工作表列"));
+    cellRemoveColAct = cellmenu->addAction(QIcon(":/icon/icon/RemoveColumn.png"),QStringLiteral("删除工作表列"));
     btn = cellPannel->addLargeAction(cellDeleteAct);
     btn->setIcon(QIcon(":/icon/icon/CellsDelete.png"));
     btn->setText(QStringLiteral("删除"));
