@@ -61,5 +61,12 @@
         <file>icon/ClearFormats.png</file>
         <file>icon/ClearFormatting.png</file>
         <file>icon/FontSizeDecrease.png</file>
+        <file>icon/FileClose.png</file>
+        <file>icon/FileNew.png</file>
+        <file>icon/FileOpen.png</file>
+        <file>icon/FileSave.png</file>
+        <file>icon/FileSaveAs.png</file>
+        <file>icon/OpSheet.png</file>
+        <file>icon/HideRibbon.png</file>
     </qresource>
 </RCC>

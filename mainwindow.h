@@ -24,6 +24,7 @@ private slots:
     void onShowContextCategory(bool on);
     void onWpsStyle(bool on);
 private:
+    void createCategoryMenu();
     void createCategoryMain(SARibbonCategory* page);
     void createCategoryPrint(SARibbonCategory* page);
     void createCategoryOther(SARibbonCategory* page);
@@ -96,6 +97,13 @@ public slots:
     void cellDefaultColWidth_click();
     void cellSetFormat_click();
     void option_click();
+    void printDialog_click();
+    void printOption_click();
+    void printPreview_click();
+    void opSheet_click();
+    void hideRibbon_click();
+    void information_click();
+
 public:
 
     //文件
@@ -137,6 +145,7 @@ public:
     QAction* fontSizeDecreaseAct;
 
     //字体格式
+    QAction* clockFormatAct;
     QAction* clearAllFormatsAct;//清除所有
     QAction* clearFormatsAct; //清楚格式
     QAction* clearFormatingAct;//清除内容
@@ -177,6 +186,18 @@ public:
 
     //格式
     QAction* optAct;
+
+    //打印
+    QAction* printDialogAct;
+    QAction* printOptionAct;
+    QAction* printPreviewAct;
+
+    //显示设置
+    QAction* opSheetAct;
+
+    //隐藏工具栏
+    QAction* hideRibbonAct;
+    QAction* informationAct;
 
 };
 

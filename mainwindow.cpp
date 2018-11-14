@@ -36,12 +36,10 @@ HReportMainWindow::HReportMainWindow(QWidget *par):QMainWindow(par),m_currentRib
 
     //初始化工具栏
     initSARibbonBar();
-
-
-    m_ribbonMenuBar->quickAccessBar()->addButton(new QAction(QIcon(":/icon/icon/chartDataManager.png"),"action1",this));
-    m_ribbonMenuBar->quickAccessBar()->addButton(new QAction(QIcon(":/icon/icon/figureIcon.png"),"action2",this));
-    m_ribbonMenuBar->quickAccessBar()->addButton(new QAction(QIcon(":/icon/icon/information.png"),"action3",this));
-    m_ribbonMenuBar->quickAccessBar()->addButton(new QAction(QIcon(":/icon/icon/inRangDataRemove.png"),"action4",this));
+    m_ribbonMenuBar->quickAccessBar()->addButton(hideRibbonAct);
+    m_ribbonMenuBar->quickAccessBar()->addButton(newAct);
+    m_ribbonMenuBar->quickAccessBar()->addButton(closeAct);
+    m_ribbonMenuBar->quickAccessBar()->addButton(informationAct);
 
     showMaximized();
 
@@ -66,19 +64,9 @@ void HReportMainWindow::initSARibbonBar()
     createCategoryPrint(categoryPrint);
     SARibbonCategory* categoryOther = m_ribbonMenuBar->addCategoryPage(QStringLiteral("测试"));
     createCategoryOther(categoryOther);
+    createCategoryMenu();
 
-    //m_ribbonMenuBar->applitionButton()->setText(QStringLiteral("文件"));//menu
-    SARibbonApplicationButton *btn = new SARibbonApplicationButton(this);
-    btn->setText(QStringLiteral("文件"));
-    btn->resize(56,30);
-    SARibbonMenu* fileMenu = new SARibbonMenu(this);
-    fileMenu->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    SARibbonIconStyle * iconSytle = new SARibbonIconStyle();
-    iconSytle->setIconSize(QSize(32,32));
-    fileMenu->setStyle(iconSytle);
-    fileMenu->addAction(newAct);
-    btn->setMenu(fileMenu);
-    m_ribbonMenuBar->setApplitionButton(btn);
+
     //m_contextCategory = m_ribbonMenuBar->addContextCategory(QStringLiteral("context"),Qt::red,1);
     //SARibbonCategory* contextCategoryPage1 = m_contextCategory->addCategoryPage(QStringLiteral("Page1"));
     //SARibbonCategory* contextCategoryPage2 = m_contextCategory->addCategoryPage(QStringLiteral("Page1"));
@@ -99,28 +87,44 @@ void HReportMainWindow::onWpsStyle(bool on)
     update();
 }
 
+void HReportMainWindow::createCategoryMenu()
+{
+   // m_ribbonMenuBar->applitionButton()->setText(QStringLiteral("文件"));//menu
+    hideRibbonAct = new QAction(QIcon(":/icon/icon/HideRibbon.png"),QStringLiteral("折叠功能区"),this);
+    informationAct = new QAction(QIcon(":/icon/icon/information.png"),QStringLiteral("信息"),this);
+
+    newAct = new QAction(QIcon(":/icon/icon/FileNew.png"),QStringLiteral("新建"),this);
+    openAct = new QAction(QIcon(":/icon/icon/FileOpen.png"),QStringLiteral("打开"),this);
+    saveAct = new QAction(QIcon(":/icon/icon/FileSave.png"),QStringLiteral("保存"),this);
+    saveAsAct = new QAction(QIcon(":/icon/icon/FileSaveAs.png"),QStringLiteral("另存为"),this);
+    closeAct = new QAction(QIcon(":/icon/icon/FileClose.png"),QStringLiteral("关闭"),this);
+
+    SARibbonApplicationButton *btn = new SARibbonApplicationButton(this);
+    btn->setStyleSheet("QPushButton::menu-indicator{image:None;}");
+    btn->setText(QStringLiteral("文件"));
+    btn->resize(56,30);
+    SARibbonMenu* fileMenu = new SARibbonMenu(this);//不能用
+    fileMenu->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    SARibbonIconStyle * iconSytle = new SARibbonIconStyle();
+    iconSytle->setIconSize(QSize(32,32));
+    fileMenu->setStyle(iconSytle);
+    fileMenu->addAction(newAct);
+    fileMenu->addAction(openAct);
+    fileMenu->addAction(saveAct);
+    fileMenu->addAction(saveAsAct);
+    fileMenu->addSeparator();
+    fileMenu->addAction(printDialogAct);
+    fileMenu->addAction(printOptionAct);
+    fileMenu->addAction(printPreviewAct);
+    fileMenu->addSeparator();
+    fileMenu->addAction(closeAct);
+    btn->setMenu(fileMenu);
+    m_ribbonMenuBar->setApplitionButton(btn);
+}
+
 void HReportMainWindow::createCategoryMain(SARibbonCategory *page)
 {
-    newAct = new QAction(QIcon(":/icon/icon/FileNew.png"),QStringLiteral("新建"),this);
-    openAct = new QAction(QIcon(":/icon/icon/Paste.png"),QStringLiteral("打开"),this);
-    saveAct = new QAction(QIcon(":/icon/icon/Paste.png"),QStringLiteral("保存"),this);
-    saveAsAct = new QAction(QIcon(":/icon/icon/Paste.png"),QStringLiteral("另存为"),this);
-    closeAct = new QAction(QIcon(":/icon/icon/Paste.png"),QStringLiteral("关闭"),this);
-    /*
-    SARibbonMenu* menu = new SARibbonMenu(this);
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("1111111"));
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("1"));
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("11"));
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("111"));
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("11111"));
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("1111111"));
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("11111111"));
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("1111111111"));
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("1111111111111"));
-    menu->addAction(QIcon(":/icon/icon/folder.png"),QStringLiteral("1111111111111111111111111111"));*/
-
     ///////////////////////////////////////////剪贴板//////////////////////////////////////////
-
     SARibbonToolButton * btn = NULL;
     SARibbonPannel* pannel = page->addPannel(QStringLiteral("剪贴板"));
     pasteAct = new QAction(this);
@@ -248,7 +252,7 @@ void HReportMainWindow::createCategoryMain(SARibbonCategory *page)
     btn->setPopupMode(QToolButton::InstantPopup);
     btn->setToolButtonStyle(Qt::ToolButtonIconOnly);
     btn->setMenu(bordermenu);
-    btn->setFixedWidth(32);
+    btn->setFixedWidth(30);
     QAction* noneAct = new QAction(this);
     noneAct->setEnabled(false);
     btnGroup->addButton(noneAct);
@@ -275,7 +279,6 @@ void HReportMainWindow::createCategoryMain(SARibbonCategory *page)
     btn = btnGroup->addButton(clearFormatsAct);
     btn = btnGroup->addButton(clearFormatingAct);
     fontPannel->addWidget(btnGroup,3,3);
-
 
     ////////////////////////////////////////////对齐设置/////////////////////////////////////////////////
     SARibbonPannel* aligPannel = page->addPannel(QStringLiteral("对齐"));
@@ -373,14 +376,19 @@ void HReportMainWindow::createCategoryMain(SARibbonCategory *page)
     btn->setMenu(cellmenu);
     cellPannel->addWidget(btn);
 
+    /////////////////////////////////////////操作票设置///////////////////////////////////////////////////////////////
+    SARibbonPannel* opSheetPannel = page->addPannel(QStringLiteral("操作票设置"));
+    opSheetAct = new QAction(QIcon(":/icon/icon/OpSheet.png"),QStringLiteral("操作票设置"));
+    opSheetPannel->addLargeAction(opSheetAct);
+
+
     optAct = new QAction(this);
     optAct->setToolTip(QStringLiteral("单元格格式"));
     pannel->addOptionAction(optAct);
     fontPannel->addOptionAction(optAct);
     aligPannel->addOptionAction(optAct);
     cellPannel->addOptionAction(optAct);
-    //pannel->addOptionAction(optAct);
-    //fontPannel->addOptionAction(optAct);
+
     return;
     //btn->setPopupMode(QToolButton::MenuButtonPopup);
 
@@ -592,20 +600,21 @@ void HReportMainWindow::createCategoryPrint(SARibbonCategory* page)
 {
     SARibbonPannel* printpannel = page->addPannel(QStringLiteral("打印设置"));
 
-    QAction* act = new QAction(this);
-    act->setIcon(QIcon(":/icon/icon/PrintDialogAccess.png"));
-    act->setText(QStringLiteral("快速打印"));
-    printpannel->addLargeAction(act);
 
-    act = new QAction(this);
-    act->setIcon(QIcon(":/icon/icon/PrintOptionsMenuWord.png"));
-    act->setText(QStringLiteral("打印选项"));
-    printpannel->addLargeAction(act);
+    printDialogAct = new QAction(this);
+    printDialogAct->setIcon(QIcon(":/icon/icon/PrintDialogAccess.png"));
+    printDialogAct->setText(QStringLiteral("快速打印"));
+    printpannel->addLargeAction(printDialogAct);
 
-    act = new QAction(this);
-    act->setIcon(QIcon(":/icon/icon/PrintPreviewZoomMenu.png"));
-    act->setText(QStringLiteral("打印预览"));
-    printpannel->addLargeAction(act);
+    printOptionAct = new QAction(this);
+    printOptionAct->setIcon(QIcon(":/icon/icon/PrintOptionsMenuWord.png"));
+    printOptionAct->setText(QStringLiteral("打印选项"));
+    printpannel->addLargeAction(printOptionAct);
+
+    printPreviewAct = new QAction(this);
+    printPreviewAct->setIcon(QIcon(":/icon/icon/PrintPreviewZoomMenu.png"));
+    printPreviewAct->setText(QStringLiteral("打印预览"));
+    printpannel->addLargeAction(printPreviewAct);
 
 }
 
