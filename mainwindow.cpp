@@ -21,16 +21,13 @@
 #include "SARibbonCheckBox.h"
 #include "SARibbonQuickAccessBar.h"
 #include "SARibbonButtonGroupWidget.h"
-#define PRINT_COST(ElapsedTimer,LastTime,STR) \
-    do{\
-    int ___TMP_INT = ElapsedTimer.elapsed();\
-    qDebug() << STR << ___TMP_INT - LastTime << "(" << ___TMP_INT << ")";\
-    LastTime = ___TMP_INT;\
-    }while(0)
+#include <QSplitter>
 
 HReportMainWindow::HReportMainWindow(QWidget *par):QMainWindow(par),m_currentRibbonTheme(RibbonTheme::NormalTheme)
 {
     setWindowTitle(QStringLiteral("报表设计"));
+
+    QSplitter* splitter =new QSplitter(this);
 
     //这里应该是一个表格控件
 
@@ -40,7 +37,7 @@ HReportMainWindow::HReportMainWindow(QWidget *par):QMainWindow(par),m_currentRib
     m_ribbonMenuBar->quickAccessBar()->addButton(newAct);
     m_ribbonMenuBar->quickAccessBar()->addButton(closeAct);
     m_ribbonMenuBar->quickAccessBar()->addButton(informationAct);
-
+    setCentralWidget(splitter);
     showMaximized();
 
 }
@@ -379,10 +376,12 @@ void HReportMainWindow::createCategoryMain(SARibbonCategory *page)
     /////////////////////////////////////////操作票设置///////////////////////////////////////////////////////////////
     SARibbonPannel* opSheetPannel = page->addPannel(QStringLiteral("操作票设置"));
     opSheetAct = new QAction(QIcon(":/icon/icon/OpSheet.png"),QStringLiteral("操作票设置"));
+    connect(opSheetAct,&QAction::triggered,this,&HReportMainWindow::option_click);
     opSheetPannel->addLargeAction(opSheetAct);
 
 
     optAct = new QAction(this);
+    connect(optAct,&QAction::triggered,this,&HReportMainWindow::option_click);
     optAct->setToolTip(QStringLiteral("单元格格式"));
     pannel->addOptionAction(optAct);
     fontPannel->addOptionAction(optAct);

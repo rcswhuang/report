@@ -16,13 +16,24 @@ INCLUDEPATH += \
 
 SOURCES += main.cpp\
     mainwindow.cpp \ 
-    hreportwindowact.cpp
+    hreportwindowact.cpp \
+    hformatsetdlg.cpp \
+    hborderset.cpp \
+    hfontset.cpp
 
 HEADERS  += \
-    mainwindow.h 
+    mainwindow.h \ 
+    hborderset.h \
+    hformatsetdlg.h \
+    hfontset.h
 
 RESOURCES += \
     saribbonresouce.qrc
 
 
 LIBS += -L..\..\lib -lH5RibbonBar
+
+FORMS += \
+    formatsetdlg.ui \
+    hborderset.ui \
+    hfontset.ui

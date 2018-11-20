@@ -1,4 +1,5 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
+#include "hformatsetdlg.h"
 void HReportMainWindow::paste_click()
 {
 
@@ -231,7 +232,8 @@ void HReportMainWindow::cellSetFormat_click()
 
 void HReportMainWindow::option_click()
 {
-
+    HFormatSetDlg dlg;
+    dlg.exec();
 }
 
 void HReportMainWindow::printDialog_click()
